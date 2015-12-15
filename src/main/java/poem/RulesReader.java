@@ -1,6 +1,8 @@
 package poem;
 
+
 import java.io.*;
+import java.util.*;
 
 /**
  * Created by neal on 12/14/15.
@@ -16,8 +18,18 @@ public class RulesReader {
         BufferedReader reader = new BufferedReader(fileReader);
 
         String line;
+        //Map<String, RulesLine> rules = new HashMap<String, RulesLine>();
+        RulesFile rulesFile = new RulesFile();
+
+        line = reader.readLine();
+        String[] pieces = line.split(" ");
+        rulesFile.lineNumbers = pieces.length - 1;
+
         while((line = reader.readLine()) != null) {
-            System.out.println(line);
+            pieces = line.split(" ");
+            String key = pieces[0].substring(0, line.indexOf(":"));
+
+            rulesFile.rules.put(key, new RulesLine(pieces[1], pieces[2]));
         }
 
         reader.close();
