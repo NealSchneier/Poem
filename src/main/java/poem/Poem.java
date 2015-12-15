@@ -14,6 +14,8 @@ public class Poem {
 
 
     public Poem() {
+
+        RulesReader rulesReader = new RulesReader();
         line1 = new Line();
         line2 = new Line();
         line3 = new Line();
