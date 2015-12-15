@@ -2,6 +2,8 @@ package poem;
 
 import org.junit.Test;
 
+import java.io.IOException;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -10,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 public class PoemTest {
 
     @Test
-    public void test_Poem() {
+    public void test_Poem() throws IOException {
         Poem poem = new Poem();
         assertEquals("black", poem.line1.generateAdjective(""));
         assertEquals("my", poem.line1.generatePronoun(""));

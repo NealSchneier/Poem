@@ -1,6 +1,8 @@
 package poem;
 
 
+import java.io.IOException;
+
 /**
  * Created by neal on 12/14/15.
  */
@@ -13,7 +15,7 @@ public class Poem {
     Line line5;
 
 
-    public Poem() {
+    public Poem() throws IOException {
 
         RulesReader rulesReader = new RulesReader();
         line1 = new Line();
