@@ -9,10 +9,16 @@ import java.util.List;
  */
 public class RulesLine {
 
-    List<String> words;
-    List<String> references;
+    private List<String> words;
+    private List<String> references;
 
+    /**
+     * Parses the incoming Strings from the file and creates separate lists for references and the words
+     * @param words
+     * @param references
+     */
     public RulesLine(String words, String references) {
+
         words = words.replaceAll(">", "");
         words = words.replaceAll("<", "");
         references = references.replace(">", "");
@@ -20,5 +26,21 @@ public class RulesLine {
 
         this.words = Arrays.asList(words.split("\\|"));
         this.references = Arrays.asList(references.split("\\|"));
+    }
+
+    public List<String> getWords() {
+        return words;
+    }
+
+    public void setWords(List<String> words) {
+        this.words = words;
+    }
+
+    public List<String> getReferences() {
+        return references;
+    }
+
+    public void setReferences(List<String> references) {
+        this.references = references;
     }
 }

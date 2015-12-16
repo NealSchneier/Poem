@@ -11,106 +11,84 @@ public class Line {
 
     private static final String LINEBREAK = "\n";
     private static final Random RANDOM = new Random();
+    private static final String END = "$END";
+    private static final String NOUN = "NOUN";
+    private static final String ADJECTIVE = "ADJECTIVE";
+    private static final String PRONOUN = "PRONOUN";
+    private static final String VERB = "VERB";
+    private static final String PREPOSITION = "PREPOSITION";
+    private static final String LINE= "LINE";
 
-
-    public Line() {
+    /**
+     * Wrapper for the private internally called methods
+     * @param rules
+     * @return
+     * @throws Exception
+     */
+    public String generateOutput(Map<String, RulesLine> rules) throws Exception {
+        return generateLine(rules);
     }
 
-    public String generatePronoun(RulesLine pronoun) {
-        String response = pronoun.words.get(RANDOM.nextInt(pronoun.words.size())) + " ";
-        int referenceLookup = RANDOM.nextInt(pronoun.references.size());
-        String lookup = pronoun.references.get(referenceLookup);
-        if (lookup.equalsIgnoreCase("VERB"))
-        {
-            response +=  generateVerb(null);
-        } else if (lookup.equalsIgnoreCase("PREPOSITION")) {
-            response += generatePreposition(null);
-        }
-        return response ;
-    }
-
-    public String generateAdjective(RulesLine adjective) {
-        String response = adjective.words.get(RANDOM.nextInt(adjective.words.size())) + " ";
-        int referenceLookup = RANDOM.nextInt(adjective.references.size());
-        String lookup = adjective.references.get(referenceLookup);
-        if (lookup.equalsIgnoreCase("VERB"))
-        {
-            response +=  generateVerb(null);
-        } else if (lookup.equalsIgnoreCase("PREPOSITION")) {
-            response += generatePreposition(null);
-        }
-        return response ;
-    }
-
-    public String generateNoun(RulesLine noun) {
-        String response = noun.words.get(RANDOM.nextInt(noun.words.size())) + " ";
-        int referenceLookup = RANDOM.nextInt(noun.references.size());
-        String lookup = noun.references.get(referenceLookup);
-        if (lookup.equalsIgnoreCase("VERB"))
-        {
-            response +=  generateVerb(null);
-        } else if (lookup.equalsIgnoreCase("PREPOSITION")) {
-            response += generatePreposition(null);
-        }
-        return response ;
-    }
-
-    public String generateVerb(RulesLine verb) {
-        String response = verb.words.get(RANDOM.nextInt(verb.words.size())) + " ";
-        int referenceLookup = RANDOM.nextInt(verb.references.size());
-        String lookup = verb.references.get(referenceLookup);
-        if (lookup.equalsIgnoreCase("PRONOUN")) {
-            response +=  generateVerb(null);
-        } else if (lookup.equalsIgnoreCase("PREPOSITION")) {
-            response += generatePreposition(null);
-        }
-        return response ;
-    }
-
-    public String generatePreposition(RulesLine preposition) {
-        String response = preposition.words.get(RANDOM.nextInt(preposition.words.size())) + " ";
-        int referenceLookup = RANDOM.nextInt(preposition.references.size());
-        String lookup = preposition.references.get(referenceLookup);
-        if (lookup.equalsIgnoreCase("PRONOUN")) {
-            response +=  generateVerb(null);
-        } else if (lookup.equalsIgnoreCase("PREPOSITION")) {
-            response += generatePreposition(null);
-        }
-        return response ;
-    }
-
-    public void generateOutput(Map<String, RulesLine> rules) {
-        System.out.println(generateLine(rules));
-    }
-
-    private String generateLine(Map<String, RulesLine> rules) {
-        if (rules.get("LINE") == null) {
+    /**
+     *  Reads the Line to get the basic rules
+     * @param rules
+     * @return
+     * @throws Exception
+     */
+    private String generateLine(Map<String, RulesLine> rules) throws Exception {
+        if (rules.get(LINE) == null) {
             return "";
         }
         StringBuilder builder = new StringBuilder();
-        RulesLine rulesLine = rules.get("LINE");
+        RulesLine rulesLine = rules.get(LINE);
         generateWords(rules, builder, rulesLine);
 
         return builder.toString() + LINEBREAK;
     }
 
-    private void generateWords(Map<String, RulesLine> rules, StringBuilder builder, RulesLine rulesLine) {
-        int value = RANDOM.nextInt(rulesLine.words.size());
-        String valueString = rulesLine.words.get(value);
-        if (valueString.equalsIgnoreCase("NOUN")) {
-            builder.append(generateNoun(rules.get("NOUN")));
+    /**
+     * Maps the Line mapping from the file
+     * @param rules
+     * @param builder
+     * @param rulesLine
+     * @throws Exception
+     */
+    private void generateWords(Map<String, RulesLine> rules, StringBuilder builder, RulesLine rulesLine) throws Exception {
+        int value = RANDOM.nextInt(rulesLine.getWords().size());
+        String valueString = rulesLine.getWords().get(value);
+        if (valueString.equalsIgnoreCase(NOUN)) {
+            generateWord(rules, builder, rules.get(NOUN));
         }
-        else if (valueString.equalsIgnoreCase("ADJECTIVE")) {
-            builder.append(generateAdjective(rules.get("ADJECTIVE")));
+        else if (valueString.equalsIgnoreCase(ADJECTIVE)) {
+            generateWord(rules, builder, rules.get(ADJECTIVE));
         }
-        else if (valueString.equalsIgnoreCase("PRONOUN")) {
-            builder.append(generatePronoun(rules.get("PRONOUN")));
+        else if (valueString.equalsIgnoreCase(PRONOUN)) {
+            generateWord(rules, builder, rules.get(PRONOUN));
         }
-        else if (valueString.equalsIgnoreCase("VERB")) {
-            builder.append(generateVerb(rules.get("VERB")));
+        else if (valueString.equalsIgnoreCase(VERB)) {
+            generateWord(rules, builder, rules.get(VERB));
         }
-        else if (valueString.equalsIgnoreCase("PREPOSITION")) {
-            builder.append(generatePreposition(rules.get("PREPOSITION")));
+        else if (valueString.equalsIgnoreCase(PREPOSITION)) {
+            generateWord(rules, builder, rules.get(PREPOSITION));
+        } else {
+            throw new Exception("The word is not a Noun, Adjective, Pronoun, Verb, or Preposition");
         }
+    }
+
+    /**
+     * generates a word then recursively calls if necessary END is not reached
+     * @param rules
+     * @param builder
+     * @param rulesLine
+     * @return
+     */
+    private void generateWord(Map<String, RulesLine> rules, StringBuilder builder, RulesLine rulesLine) {
+        int randomWord = RANDOM.nextInt(rulesLine.getWords().size());
+        int randomReferences= RANDOM.nextInt(rulesLine.getReferences().size());
+
+        builder.append(rulesLine.getWords().get(randomWord));
+        builder.append(" ");
+        if (!rulesLine.getReferences().get(randomReferences).equalsIgnoreCase(END))
+            generateWord(rules, builder, rules.get(rulesLine.getReferences().get(randomReferences)));
     }
 }

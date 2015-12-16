@@ -12,19 +12,34 @@ import java.util.Map;
  */
 public class Poem {
 
-    Map<String, Line> lineList;
+    private RulesFile rulesFile;
 
+    public Poem(String rulesFileName) throws IOException {
 
-    public Poem() throws IOException {
+        RulesReader rulesReader = new RulesReader(rulesFileName);
+        rulesFile = rulesReader.readFromFile();
 
-        RulesReader rulesReader = new RulesReader();
-        RulesFile rulesFile = rulesReader.readFromFile();
-        lineList = new HashMap<String, Line>();
-
-        for (int i = 0; i < rulesFile.getLineNumbers(); i ++) {
-            Line line = new Line();
-            line.generateOutput(rulesFile.getRules());
-        }
     }
 
+    /**
+     * Triggers the generation of a poem from the already read in file
+     * @param rulesFile
+     * @return
+     */
+    public String generatePoem(RulesFile rulesFile) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < rulesFile.getLineNumbers(); i ++) {
+            Line line = new Line();
+            builder.append(line.generateOutput(rulesFile.getRules()));
+        }
+        return builder.toString();
+    }
+
+    public RulesFile getRulesFile() {
+        return rulesFile;
+    }
+
+    public void setRulesFile(RulesFile rulesFile) {
+        this.rulesFile = rulesFile;
+    }
 }
