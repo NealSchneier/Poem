@@ -9,10 +9,27 @@ import java.util.Map;
  */
 public class RulesFile {
 
-    Map<String, RulesLine> rules;
-    int lineNumbers;
+    private Map<String, RulesLine> rules;
+    private int lineNumbers;
 
-    public RulesFile() {
+    public RulesFile(int lineNumbers) {
+        this.lineNumbers = lineNumbers;
         rules = new HashMap<String, RulesLine>();
+    }
+
+    public int getLineNumbers() {
+        return lineNumbers;
+    }
+
+    public void setLineNumbers(int lineNumbers) {
+        this.lineNumbers = lineNumbers;
+    }
+
+    public Map<String, RulesLine> getRules() {
+        return rules;
+    }
+
+    public void setRules(Map<String, RulesLine> rules) {
+        this.rules = rules;
     }
 }

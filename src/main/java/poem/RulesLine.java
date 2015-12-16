@@ -13,7 +13,12 @@ public class RulesLine {
     List<String> references;
 
     public RulesLine(String words, String references) {
-        this.words = Arrays.asList(words);
-        this.references = Arrays.asList(references);
+        words = words.replaceAll(">", "");
+        words = words.replaceAll("<", "");
+        references = references.replace(">", "");
+        references = references.replace("<", "");
+
+        this.words = Arrays.asList(words.split("\\|"));
+        this.references = Arrays.asList(references.split("\\|"));
     }
 }
