@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(Parameterized.class)
 public class PoemTest {
 
-    private static final int REPEAT = 1;
+    private static final int REPEAT = 5;
 
     @Parameterized.Parameters
     public static List<Object[]> data() {

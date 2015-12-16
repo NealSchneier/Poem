@@ -28,8 +28,9 @@ public class Poem {
      */
     public String generatePoem(RulesFile rulesFile) throws Exception {
         StringBuilder builder = new StringBuilder();
+        Line line = new Line();
         for (int i = 0; i < rulesFile.getLineNumbers(); i ++) {
-            Line line = new Line();
+
             builder.append(line.generateOutput(rulesFile.getRules()));
         }
         return builder.toString();
