@@ -2,6 +2,7 @@ package poem;
 
 
 import java.io.*;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -17,8 +18,12 @@ public class RulesReader {
      * @throws IOException
      */
     public RulesReader(String fileName) throws IOException {
-
-        file = new File(RulesReader.class.getClassLoader().getResource(fileName).getPath());
+        Optional<URL> resourceURL = Optional.ofNullable(RulesReader.class.getClassLoader().getResource(fileName));
+        if (resourceURL.isPresent()) {
+            file = new File(resourceURL.get().getPath());
+        } else {
+            throw new IOException(fileName + " does not exist on the classpath");
+        }
     }
 
     /**

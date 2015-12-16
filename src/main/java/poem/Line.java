@@ -12,11 +12,6 @@ public class Line {
     private static final String LINEBREAK = "\n";
     private static final Random RANDOM = new Random();
     private static final String END = "$END";
-    private static final String NOUN = "NOUN";
-    private static final String ADJECTIVE = "ADJECTIVE";
-    private static final String PRONOUN = "PRONOUN";
-    private static final String VERB = "VERB";
-    private static final String PREPOSITION = "PREPOSITION";
     private static final String LINE= "LINE";
 
     /**
@@ -54,25 +49,13 @@ public class Line {
      * @throws Exception
      */
     private void generateWords(Map<String, RulesLine> rules, StringBuilder builder, RulesLine rulesLine) throws Exception {
-        int value = RANDOM.nextInt(rulesLine.getWords().size());
+        int value = getRandomInt(rulesLine.getWords().size());
         String valueString = rulesLine.getWords().get(value);
-        if (valueString.equalsIgnoreCase(NOUN)) {
-            generateWord(rules, builder, rules.get(NOUN));
-        }
-        else if (valueString.equalsIgnoreCase(ADJECTIVE)) {
-            generateWord(rules, builder, rules.get(ADJECTIVE));
-        }
-        else if (valueString.equalsIgnoreCase(PRONOUN)) {
-            generateWord(rules, builder, rules.get(PRONOUN));
-        }
-        else if (valueString.equalsIgnoreCase(VERB)) {
-            generateWord(rules, builder, rules.get(VERB));
-        }
-        else if (valueString.equalsIgnoreCase(PREPOSITION)) {
-            generateWord(rules, builder, rules.get(PREPOSITION));
-        } else {
-            throw new Exception("The word is not a Noun, Adjective, Pronoun, Verb, or Preposition");
-        }
+        generateWord(rules, builder, rules.get(valueString));
+    }
+
+    private int getRandomInt(int max) {
+        return RANDOM.nextInt(max);
     }
 
     /**
@@ -83,8 +66,8 @@ public class Line {
      * @return
      */
     private void generateWord(Map<String, RulesLine> rules, StringBuilder builder, RulesLine rulesLine) {
-        int randomWord = RANDOM.nextInt(rulesLine.getWords().size());
-        int randomReferences= RANDOM.nextInt(rulesLine.getReferences().size());
+        int randomWord = getRandomInt(rulesLine.getWords().size());
+        int randomReferences= getRandomInt(rulesLine.getReferences().size());
 
         builder.append(rulesLine.getWords().get(randomWord));
         builder.append(" ");
